@@ -6,27 +6,20 @@
   'use strict';
 
   /* -------------------------------------------------------
-     ★ お問い合わせフォームの送信先設定
+     ★ お問い合わせフォームの送信先
      -------------------------------------------------------
-     FORM_ENDPOINT が空のあいだは、送信ボタンを押すと
-     お客様のメールソフトが起動する「mailto方式」で動きます。
-     （静的サイトなのでサーバーがなく、これが初期状態です）
+     Formspree を使用しています。
+     実際の受信メールアドレスは Formspree 側に保存されており、
+     このファイルにもサイトのソースにも一切含まれません。
 
-     ▼ メールアドレスの公開について（重要）
-     mailto方式のあいだは、受信用アドレスがこのファイルの中に
-     書かれた状態になります。ソースを表示すれば読み取れるため、
-     迷惑メール収集業者に拾われる可能性があります。
-     下では文字列を分割して簡易的に隠していますが、気休めです。
+     受信先を変更する場合は、Formspree の管理画面
+     （https://formspree.io/forms）で
+     該当フォームの Settings → Emails から変更してください。
+     このファイルを書き換える必要はありません。
 
-     アドレスを一切公開したくない場合は、
-     https://formspree.io/ などで無料のフォームを作り、
-     発行されたURLを FORM_ENDPOINT に貼り付けてください。
-     その方式なら送信先はサービス側に保存され、
-     サイトのソースには一切現れません。
-       例) var FORM_ENDPOINT = 'https://formspree.io/f/xxxxxxxx';
+     無料プランの上限は月50件です。
   ------------------------------------------------------- */
-  var FORM_ENDPOINT = '';
-  var MAILTO_TO = ['info', 'kantojuhan.com'].join('@');
+  var FORM_ENDPOINT = 'https://formspree.io/f/xpqvogwy';
 
   var $  = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -175,22 +168,6 @@
     };
   };
 
-  var sendByMailto = function (d) {
-    var body =
-      'ご相談の種類：' + d.type + '\n' +
-      'お名前：'       + d.name + '\n' +
-      'メール：'       + d.mail + '\n' +
-      '電話番号：'     + (d.tel || '（未記入）') + '\n\n' +
-      'ご相談内容：\n' + d.msg + '\n';
-
-    window.location.href =
-      'mailto:' + MAILTO_TO +
-      '?subject=' + encodeURIComponent('【サイトからのお問い合わせ】' + d.name + '様') +
-      '&body=' + encodeURIComponent(body);
-
-    showStatus('メールソフトを起動しました。内容をご確認のうえ送信してください。', 'ok');
-  };
-
   var sendByFetch = function (d) {
     submit.disabled = true;
     showStatus('送信中です…', '');
@@ -199,10 +176,15 @@
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        // _subject と email は Formspree の予約フィールドです。
+        // email を渡しておくと、届いたメールでそのまま「返信」を押すだけで
+        // お客様宛に返信できます。
+        _subject: '【サイトからのお問い合わせ】' + d.name + '様',
+        email: d.mail,
         'ご相談の種類': d.type,
         'お名前': d.name,
         'メールアドレス': d.mail,
-        '電話番号': d.tel,
+        '電話番号': d.tel || '（未記入）',
         'ご相談内容': d.msg
       })
     })
@@ -224,9 +206,7 @@
       showStatus('未入力の項目があります。ご確認ください。', 'ng');
       return;
     }
-    var data = collect();
-    if (FORM_ENDPOINT) sendByFetch(data);
-    else sendByMailto(data);
+    sendByFetch(collect());
   });
 
   $$('.f-input, #f-agree').forEach(function (el) {
