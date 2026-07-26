@@ -1,0 +1,496 @@
+@charset "UTF-8";
+
+/* =========================================================
+   ゼロハウス さいたま
+   style.css
+   ---------------------------------------------------------
+   色を変えたいときは、下の :root だけ書き換えれば
+   サイト全体に反映されます。
+   ========================================================= */
+
+:root{
+  /* ブランドカラー（グリーン） */
+  --primary:        #2a8a54;   /* メイングリーン */
+  --primary-dark:   #1a6e3c;   /* 濃いグリーン（ホバー） */
+  --primary-deep:   #0f4526;   /* 最も濃いグリーン（トップバー・CTA） */
+  --primary-light:  #f0faf4;   /* 薄いグリーン背景 */
+  --primary-border: #b2dfc4;   /* 薄いグリーンのボーダー */
+  --primary-text:   #0f4526;   /* 薄背景の上の文字色 */
+
+  /* 文字・背景 */
+  --text-primary:   #1a1a1a;
+  --text-secondary: #555555;
+  --text-muted:     #888888;
+  --border:         #e0e0e0;
+  --surface-bg:     #f7f7f7;
+  --white:          #ffffff;
+
+  /* 状態色 */
+  --error:          #c62828;
+
+  --radius:         10px;
+  --radius-sm:      6px;
+  --max:            1100px;
+
+  --font: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP',
+          'Yu Gothic Medium', 'Yu Gothic', Meiryo, system-ui, sans-serif;
+}
+
+/* ---------- リセット ---------- */
+*,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; scroll-padding-top:76px; -webkit-text-size-adjust:100%; }
+body{
+  font-family:var(--font);
+  color:var(--text-primary);
+  background:var(--white);
+  line-height:1.75;
+}
+a{ text-decoration:none; color:inherit; }
+img{ display:block; max-width:100%; height:auto; }
+ul,ol{ list-style:none; }
+button{ font:inherit; color:inherit; cursor:pointer; }
+h1,h2,h3,p{ margin:0; }
+
+:focus-visible{ outline:3px solid var(--primary); outline-offset:2px; border-radius:3px; }
+
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:9999; background:var(--primary-deep); color:#fff; padding:12px 20px; }
+.skip-link:focus{ left:0; }
+
+.hide-sp{ display:inline-flex; }
+
+/* =========================================================
+   トップバー
+   ========================================================= */
+.topbar{
+  background:var(--primary-deep); color:#c8f0d8;
+  font-size:12px; padding:7px 2rem;
+  display:flex; justify-content:center; align-items:center;
+  gap:2rem; flex-wrap:wrap;
+}
+.topbar span{ display:flex; align-items:center; gap:5px; }
+.topbar a{ color:inherit; }
+.topbar a:hover{ text-decoration:underline; }
+
+/* =========================================================
+   ナビ
+   ========================================================= */
+.nav{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:1rem; padding:.9rem 2rem; background:#fff;
+  border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:100;
+}
+.logo{ display:flex; align-items:center; flex:0 0 auto; }
+.logo-zero{ font-size:22px; font-weight:700; color:var(--primary); letter-spacing:.02em; }
+.logo-city{ font-size:14px; color:#777; margin-left:6px; }
+.logo-tag{
+  font-size:10px; background:var(--primary-light); color:var(--primary-text);
+  border:1px solid var(--primary-border); padding:2px 7px; border-radius:10px;
+  margin-left:8px; font-weight:600; white-space:nowrap;
+}
+
+.nav-links{ display:flex; gap:1.5rem; margin-left:auto; }
+.nav-links a{ font-size:13px; color:#555; white-space:nowrap; }
+.nav-links a:hover{ color:var(--primary); }
+
+.nav-right{ display:flex; align-items:center; gap:12px; flex:0 0 auto; }
+.nav-tel{ font-size:13px; font-weight:600; color:var(--text-primary); white-space:nowrap; }
+.nav-tel:hover{ color:var(--primary); }
+
+.btn-primary{
+  background:var(--primary); color:#fff; border:none;
+  padding:9px 18px; border-radius:var(--radius-sm);
+  font-size:13px; font-weight:600; white-space:nowrap;
+  display:inline-block; transition:background-color .2s;
+}
+.btn-primary:hover{ background:var(--primary-dark); }
+
+.hamburger{ display:none; width:42px; height:42px; border:0; background:transparent; position:relative; }
+.hamburger span{
+  position:absolute; left:11px; width:20px; height:2px; background:var(--primary-deep);
+  transition:transform .3s, opacity .2s, top .3s;
+}
+.hamburger span:nth-child(1){ top:14px; }
+.hamburger span:nth-child(2){ top:20px; }
+.hamburger span:nth-child(3){ top:26px; }
+.hamburger.is-open span:nth-child(1){ top:20px; transform:rotate(45deg); }
+.hamburger.is-open span:nth-child(2){ opacity:0; }
+.hamburger.is-open span:nth-child(3){ top:20px; transform:rotate(-45deg); }
+
+/* =========================================================
+   ヒーロー
+   ========================================================= */
+.hero{
+  background:var(--surface-bg); padding:4rem 2rem 3.5rem;
+  text-align:center; border-bottom:1px solid var(--border);
+}
+.hero-pill{
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--primary-light); border:1px solid var(--primary-border);
+  color:var(--primary-text); font-size:12px; font-weight:600;
+  padding:5px 14px; border-radius:20px; margin-bottom:1.25rem;
+}
+.hero h1{
+  font-size:30px; font-weight:700; line-height:1.5;
+  color:var(--text-primary); margin-bottom:1rem;
+}
+.hero-zero{
+  display:inline-block; color:var(--primary); font-size:40px;
+  border-bottom:3px solid var(--primary); line-height:1.3;
+}
+.hero-sub{ font-size:15px; color:var(--text-secondary); line-height:1.9; margin-bottom:.5rem; }
+.hero-note{ font-size:11px; color:var(--text-muted); margin-bottom:2rem; }
+.hero-btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+.btn-hero{
+  background:var(--primary); color:#fff; border:none;
+  padding:13px 30px; border-radius:var(--radius-sm);
+  font-size:15px; font-weight:700; display:inline-block;
+  transition:background-color .2s;
+}
+.btn-hero:hover{ background:var(--primary-dark); }
+.btn-hero:disabled{ background:var(--text-muted); cursor:not-allowed; }
+.btn-block{ display:block; width:100%; }
+
+.btn-secondary{
+  background:#fff; color:var(--text-primary);
+  border:1px solid #ccc; padding:12px 24px; border-radius:var(--radius-sm);
+  font-size:15px; display:inline-block; transition:border-color .2s, color .2s;
+}
+.btn-secondary:hover{ border-color:var(--primary); color:var(--primary); }
+
+/* =========================================================
+   節約額バー
+   ========================================================= */
+.savings-bar{
+  background:#fff; border-bottom:1px solid var(--border);
+  padding:1rem 2rem; display:flex; align-items:center; justify-content:center;
+  gap:2rem; flex-wrap:wrap;
+}
+.savings-item{ text-align:center; }
+.savings-num{ font-size:22px; font-weight:700; color:var(--primary); }
+.savings-label{ font-size:11px; color:var(--text-muted); margin-top:2px; }
+.savings-div{ width:1px; height:36px; background:var(--border); }
+
+/* =========================================================
+   条件から相談
+   ========================================================= */
+.search-wrap{
+  background:#fff; padding:1.25rem 2rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  max-width:var(--max); margin-inline:auto;
+}
+.search-label{ font-size:12px; color:var(--text-secondary); margin-bottom:.6rem; }
+.search-row{ display:flex; gap:8px; flex-wrap:wrap; }
+.search-row select{
+  flex:1; min-width:130px; padding:9px 10px;
+  border:1px solid var(--border); border-radius:var(--radius-sm);
+  font-size:13px; font-family:inherit; color:var(--text-primary); background:#fff;
+  cursor:pointer;
+}
+.search-btn{
+  background:var(--primary); color:#fff; border:none;
+  padding:9px 18px; border-radius:var(--radius-sm);
+  font-size:13px; font-weight:600; white-space:nowrap;
+  transition:background-color .2s;
+}
+.search-btn:hover{ background:var(--primary-dark); }
+.search-note{ font-size:11px; color:var(--text-muted); margin-top:.75rem; line-height:1.8; }
+
+/* =========================================================
+   セクション共通
+   ========================================================= */
+.section{ padding:2.5rem 2rem 3rem; max-width:var(--max); margin-inline:auto; }
+.section-alt{
+  background:var(--surface-bg);
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  max-width:none;
+}
+.section-alt > *{ max-width:var(--max); margin-inline:auto; }
+.sec-hd{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1.25rem; }
+.sec-title{ font-size:18px; font-weight:700; color:var(--text-primary); }
+
+/* =========================================================
+   選ばれる理由
+   ========================================================= */
+.merit-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:12px; }
+.merit-card{
+  background:#fff; border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.25rem; transition:border-color .2s, box-shadow .2s;
+}
+.merit-card:hover{ border-color:var(--primary-border); box-shadow:0 2px 8px rgba(42,138,84,.1); }
+.merit-icon{ font-size:28px; margin-bottom:10px; line-height:1; }
+.merit-title{ font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:6px; line-height:1.6; }
+.merit-desc{ font-size:12px; color:var(--text-secondary); line-height:1.8; }
+
+.merit-explain{
+  margin-top:1.25rem; background:#fff;
+  border:1px solid var(--primary-border); border-left:4px solid var(--primary);
+  border-radius:var(--radius); padding:1.25rem 1.5rem;
+}
+.merit-explain-title{ font-size:14px; font-weight:700; color:var(--primary-text); margin-bottom:.5rem; }
+.merit-explain p{ font-size:13px; color:var(--text-secondary); line-height:1.9; }
+.merit-explain-note{ margin-top:.75rem; font-size:11px !important; color:var(--text-muted) !important; }
+
+/* =========================================================
+   ご利用の流れ
+   ========================================================= */
+.flow-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:10px; }
+.flow-card{
+  background:#fff; border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.1rem; text-align:center;
+}
+.flow-num{
+  width:30px; height:30px; border-radius:50%; background:var(--primary); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; margin:0 auto 10px;
+}
+.flow-title{ font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:5px; }
+.flow-desc{ font-size:11px; color:var(--text-secondary); line-height:1.75; }
+
+/* =========================================================
+   対応エリア
+   ========================================================= */
+.area-group-label{
+  font-size:12px; font-weight:700; color:var(--primary-text);
+  margin:0 0 .6rem; padding-left:10px; border-left:3px solid var(--primary);
+}
+.area-grid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(100px,1fr));
+  gap:8px; margin-bottom:1.5rem;
+}
+.area-card{
+  background:#fff; border:1px solid var(--border); border-radius:var(--radius-sm);
+  padding:9px 8px; text-align:center; transition:border-color .2s, background-color .2s;
+}
+.area-card:hover{ border-color:var(--primary); background:var(--primary-light); }
+.area-name{ font-size:13px; color:var(--text-primary); font-weight:600; }
+.area-sub{ font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+.area-caution{
+  background:#fffdf2; border:1px solid #ebd9a0; border-radius:var(--radius-sm);
+  padding:.9rem 1.1rem; font-size:12px; color:#6b5200; line-height:1.9;
+}
+.area-caution strong{ color:#a35b00; }
+
+/* =========================================================
+   FAQ（アコーディオン）
+   ========================================================= */
+.faq-list{ display:flex; flex-direction:column; gap:10px; }
+.faq-item{
+  background:#fff; border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden;
+}
+.faq-q{
+  width:100%; background:transparent; border:0; text-align:left;
+  display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
+  padding:1rem 1.25rem;
+  font-size:14px; font-weight:700; color:var(--text-primary); line-height:1.7;
+}
+.faq-q:hover{ color:var(--primary); }
+.faq-q-mark{ color:var(--primary); margin-right:4px; }
+.faq-q > span:first-child{ flex:1; }
+
+.faq-icon{ position:relative; flex:0 0 auto; width:14px; height:14px; margin-top:7px; }
+.faq-icon::before,.faq-icon::after{
+  content:""; position:absolute; background:var(--primary); border-radius:1px; transition:transform .3s;
+}
+.faq-icon::before{ top:6px; left:0; width:14px; height:2px; }
+.faq-icon::after{ top:0; left:6px; width:2px; height:14px; }
+.faq-q[aria-expanded="true"] .faq-icon::after{ transform:scaleY(0); }
+
+.faq-a{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease; }
+.faq-a > p{ overflow:hidden; font-size:13px; color:var(--text-secondary); line-height:1.9; padding:0 1.25rem; }
+.faq-item.is-open .faq-a{ grid-template-rows:1fr; }
+.faq-item.is-open .faq-a > p{ padding-bottom:1.1rem; }
+
+/* =========================================================
+   CTA
+   ========================================================= */
+.cta-block{ background:var(--primary-deep); padding:3rem 2rem; text-align:center; }
+.cta-block h2{ font-size:22px; font-weight:700; color:#fff; margin-bottom:.5rem; }
+.cta-block p{ font-size:14px; color:rgba(255,255,255,.75); margin-bottom:1.5rem; }
+.cta-btns{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.cta-white{
+  background:#fff; color:var(--primary-deep); border:none;
+  padding:12px 28px; border-radius:var(--radius-sm);
+  font-size:15px; font-weight:700; display:inline-block; transition:background-color .2s;
+}
+.cta-white:hover{ background:var(--primary-light); }
+.cta-ghost{
+  background:transparent; color:#fff; border:1px solid rgba(255,255,255,.4);
+  padding:12px 24px; border-radius:var(--radius-sm);
+  font-size:15px; display:inline-block; transition:background-color .2s;
+}
+.cta-ghost:hover{ background:rgba(255,255,255,.12); }
+
+/* =========================================================
+   お問い合わせ
+   ========================================================= */
+.contact-wrap{ display:grid; grid-template-columns:280px 1fr; gap:20px; align-items:start; }
+
+.contact-side{ display:grid; gap:12px; }
+.contact-tel{
+  background:var(--primary-deep); color:#fff;
+  border-radius:var(--radius); padding:1.5rem 1.25rem; text-align:center;
+}
+.contact-tel-label{ font-size:12px; color:rgba(255,255,255,.75); }
+.contact-tel-num{ display:block; margin:6px 0 4px; color:#fff; font-size:26px; font-weight:700; }
+.contact-tel-num:hover{ text-decoration:underline; }
+.contact-tel-hours{ font-size:12px; color:rgba(255,255,255,.75); }
+.contact-note{
+  background:#fff; border:1px solid var(--border); border-radius:var(--radius);
+  padding:1.1rem 1.25rem; font-size:12px; color:var(--text-secondary); line-height:1.9;
+}
+.contact-note p + p{ margin-top:.5rem; }
+
+.form{ background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.75rem; }
+.f-row{ margin-bottom:1.1rem; }
+.f-row-half{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.f-label{ display:block; font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+.req,.opt{
+  display:inline-block; font-size:10px; font-weight:700; margin-left:8px;
+  padding:2px 7px; border-radius:3px; vertical-align:2px;
+}
+.req{ background:var(--primary); color:#fff; }
+.opt{ background:var(--surface-bg); color:var(--text-muted); border:1px solid var(--border); }
+
+.f-input{
+  width:100%; padding:11px 13px; font-family:inherit; font-size:14px;
+  border:1px solid var(--border); border-radius:var(--radius-sm);
+  background:#fff; color:var(--text-primary);
+  transition:border-color .2s, box-shadow .2s;
+}
+.f-input:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(42,138,84,.13); }
+.f-input::placeholder{ color:#bbb; }
+textarea.f-input{ resize:vertical; min-height:130px; line-height:1.8; }
+select.f-input{ cursor:pointer; }
+.f-input.is-error{ border-color:var(--error); background:#fff8f8; }
+
+.f-err{ display:none; margin-top:5px; font-size:12px; color:var(--error); font-weight:700; }
+.f-err.is-shown{ display:block; }
+
+.check{ display:flex; align-items:flex-start; gap:9px; font-size:13px; cursor:pointer; }
+.check input{ width:17px; height:17px; margin-top:4px; accent-color:var(--primary); flex:0 0 auto; cursor:pointer; }
+.check a{ color:var(--primary); text-decoration:underline; }
+
+.f-status{ margin-top:12px; font-size:13px; font-weight:700; text-align:center; }
+.f-status.is-ok{ color:var(--primary-dark); }
+.f-status.is-ng{ color:var(--error); }
+.f-note{ margin-top:14px; font-size:11px; color:var(--text-muted); line-height:1.8; }
+
+/* =========================================================
+   フッター
+   ========================================================= */
+.footer-main{
+  background:var(--surface-bg); border-top:1px solid var(--border);
+  padding:2rem 2rem 1.25rem;
+}
+.footer-cols{
+  display:grid; grid-template-columns:2fr 1fr 1fr; gap:2rem;
+  margin-bottom:1.5rem; max-width:var(--max); margin-inline:auto;
+}
+.f-logo{ font-size:18px; font-weight:700; margin-bottom:.4rem; }
+.f-logo-zero{ color:var(--primary); }
+.f-tagline{ font-size:12px; color:var(--text-muted); line-height:1.9; margin-bottom:.9rem; }
+.f-company-img{ width:100%; max-width:340px; border-radius:var(--radius-sm); border:1px solid var(--border); }
+.f-col-title{ font-size:13px; font-weight:700; color:var(--text-primary); margin-bottom:.7rem; }
+.f-links{ display:flex; flex-direction:column; gap:7px; }
+.f-links a{ font-size:12px; color:var(--text-secondary); }
+.f-links a:hover{ color:var(--primary); }
+.f-note-legal{
+  max-width:var(--max); margin-inline:auto;
+  font-size:11px; color:var(--text-muted); line-height:1.9;
+  border-top:1px solid var(--border); padding-top:.9rem;
+}
+
+.footer-bottom{
+  background:#fff; border-top:1px solid var(--border);
+  padding:.8rem 2rem; display:flex; justify-content:space-between; align-items:center;
+  font-size:11px; color:var(--text-muted); flex-wrap:wrap; gap:6px;
+}
+.footer-bottom a{ color:var(--text-muted); }
+.footer-bottom a:hover{ color:var(--primary); }
+.footer-bottom-links{ display:flex; gap:1rem; }
+
+/* 追従電話ボタン（スマホのみ） */
+.fab{
+  display:none; position:fixed; right:14px; bottom:14px; z-index:90;
+  flex-direction:column; align-items:center; justify-content:center;
+  width:58px; height:58px; border-radius:50%;
+  background:var(--primary); color:#fff;
+  box-shadow:0 6px 18px rgba(42,138,84,.45); font-size:18px;
+}
+.fab-text{ font-size:9px; font-weight:700; }
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ transition-duration:.01ms !important; }
+}
+
+/* =========================================================
+   レスポンシブ
+   ========================================================= */
+@media (max-width:960px){
+  .nav-links{ gap:1rem; }
+  .nav-links a{ font-size:12px; }
+  .nav-tel{ display:none; }
+  .contact-wrap{ grid-template-columns:1fr; }
+  .footer-cols{ grid-template-columns:1.4fr 1fr 1fr; gap:1.5rem; }
+}
+
+@media (max-width:780px){
+  html{ scroll-padding-top:64px; }
+  .hide-sp{ display:none; }
+  .topbar{ gap:1rem; padding:6px 1rem; font-size:11px; }
+
+  .nav{ padding:.75rem 1rem; flex-wrap:wrap; }
+  .hamburger{ display:block; }
+  .nav-right{ display:none; }
+  .nav-links{
+    order:3; width:100%; flex-direction:column; gap:0;
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+  }
+  .nav-links.is-open{ max-height:60vh; overflow-y:auto; }
+  .nav-links a{
+    display:block; padding:13px 4px; font-size:14px;
+    border-top:1px solid var(--border);
+  }
+
+  .hero{ padding:2.5rem 1.25rem 2.5rem; }
+  .hero h1{ font-size:22px; }
+  .hero-zero{ font-size:30px; }
+  .hero-sub{ font-size:14px; }
+  .hero-sub br{ display:none; }
+  .hero-btns .btn-hero,.hero-btns .btn-secondary{ width:100%; }
+
+  .savings-bar{ gap:1.25rem; padding:1rem 1.25rem; }
+  .savings-div{ display:none; }
+  .savings-item{ flex:1; min-width:90px; }
+  .savings-num{ font-size:18px; }
+
+  .search-wrap{ padding:1.25rem; }
+  .search-row select{ min-width:calc(50% - 4px); }
+  .search-btn{ width:100%; }
+
+  .section{ padding:2rem 1.25rem 2.5rem; }
+  .cta-block{ padding:2.5rem 1.25rem; }
+  .cta-btns .cta-white,.cta-btns .cta-ghost{ width:100%; }
+
+  .f-row-half{ grid-template-columns:1fr; }
+  .form{ padding:1.25rem; }
+
+  .footer-main{ padding:1.75rem 1.25rem 1.25rem; }
+  .footer-cols{ grid-template-columns:1fr; gap:1.5rem; }
+  .footer-bottom{ padding:.8rem 1.25rem; }
+  .f-tagline br{ display:none; }
+
+  .fab{ display:flex; }
+}
+
+@media (max-width:420px){
+  .logo-zero{ font-size:19px; }
+  .logo-city{ font-size:12px; }
+  .logo-tag{ display:none; }
+  .area-grid{ grid-template-columns:repeat(3,1fr); }
+}
